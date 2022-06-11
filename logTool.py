@@ -15,7 +15,10 @@ def main():
 
     # parse_args() method returns actual argument data from the command line
     args = parser.parse_args()
+    read_args(args)
 
+
+def read_args(args):
     # perform some action only if -n value specified
     if args.name == 'fed-amf':
         print("Welcome to fed-amf.")
