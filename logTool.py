@@ -7,24 +7,29 @@ from pathlib import Path
 import tarfile
 
 
-def archive_files():
-    archive_name = 'logs'
+def archive_items():
+    archive_name = 'logs.tar.gz'
     # storing as .tar.gz file, gz is the compression algorithm
     with tarfile.open(archive_name, 'w:gz') as tf:
         # manual addition, can optimize
-        tf.add('log-one.txt'), tf.add('log-two.txt')
+        tf.add('log-data-one'), tf.add('log-data-two')
     print('Archived log files successfully.')
 
 
 def store_data():
-    # write output of different commands to separate files
-    with open('log-one.txt', 'w') as f_one:
-        processOne = subprocess.run(['ls'], stdout=f_one, text=True)
-    with open('log-two.txt', 'w') as f_two:
-        processTwo = subprocess.run(['ls', '-l'], stdout=f_two, text=True)
-    if processOne.returncode == 0 and processTwo.returncode == 0:
-        print('Data stored successfully.')
-        archive_files()
+    # create directories
+    os.makedirs("log-data-one")
+    os.makedirs("log-data-two")
+    print("created dirs.")
+    if os.path.exists("log-data-one") and os.path.exists("log-data-two"):
+        # write output of different commands to separate files
+        with open('log-data-one/log-one.txt', 'w') as f_one:
+            processOne = subprocess.run(['ls'], stdout=f_one, text=True)
+        with open('log-data-two/log-two.txt', 'w') as f_two:
+            processTwo = subprocess.run(['ls', '-l'], stdout=f_two, text=True)
+        if processOne.returncode == 0 and processTwo.returncode == 0:
+            print('Data stored successfully.')
+            archive_items()
 
 
 def read_args(args):
